@@ -1,0 +1,5 @@
+/target
+Cargo.lock
+password.txt
+/.idea
+/passwd_gen.iml
