@@ -1,15 +1,16 @@
 use clap::{App, Arg};
-use std::{ io};
-
+use std::io;
+/// The default length of passwords generated.
 const PASSWORD_LEN: &str = "30";
+/// The default number of passwords generated.
 const PASSWORD_NUM: &str = "1";
-
+/// Arguments passed by the command line string
 #[derive(Debug)]
 pub struct Args {
     pub outfile: String,
     pub overwrite: bool,
     pub silent: bool,
-    pub special: bool,
+    pub extend: bool,
     pub clipboard: bool,
     pub length: usize,
     pub number: usize,
@@ -25,9 +26,9 @@ pub type ArgResult = Result<(), ArgError>;
 impl Args {
     pub fn parse() -> Self {
         let matches = App::new("passwd_gen")
-            .version("0.0.1")
-            .author("John Hight <john@hight.net")
-            .about("Generates random passwords with alphabetic and special characters")
+            .version("0.1.0")
+            .author("John Hight <https://github.com/jthight>")
+            .about("Generates random passwords with alphanumeric and special characters")
             .arg(
                 Arg::new("outfile")
                     .short('o')
@@ -58,7 +59,7 @@ impl Args {
                     .help("Silent mode: no display of password on screen"),
             )
             .arg(
-                Arg::new("special")
+                Arg::new("extend")
                     .short('e')
                     .long("extend")
                     .help("Enable extended special characters beyond default"),
@@ -90,14 +91,14 @@ impl Args {
             .parse()
             .unwrap();
         let silent = matches.is_present("silent");
-        let special = matches.is_present("special");
+        let extend = matches.is_present("extend");
         let overwrite = matches.is_present("overwrite");
         let clipboard = matches.is_present("clipboard");
         Self {
             outfile,
             overwrite,
             silent,
-            special,
+            extend,
             clipboard,
             length,
             number,
