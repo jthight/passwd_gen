@@ -120,7 +120,6 @@ impl Args {
                     self.outfile
                 )));
             }
-            eprintln!();
         }
 
         Ok(())

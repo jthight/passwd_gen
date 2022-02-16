@@ -88,19 +88,20 @@
 //!
 //! ```
 //!
-pub mod args;
 
-use std::fs::File;
-use std::io::prelude::*;
+mod args;
+mod password;
+
+use crate::args::Args;
+use crate::password::collect_passwords;
 use arboard::Clipboard;
-use rand::Rng;
-use args::Args;
-use std::fmt::Write as FmtWrite;
+use std::fs::File;
 use std::io;
+use std::io::prelude::*;
+
 /// This utility will return system generated errors
 /// and a internal error if a file will be overwritten without user input.
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-
     let args = Args::parse();
     match Args::validate_args(&args) {
         Ok(_) => (),
@@ -110,76 +111,30 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    #[allow(unused_variables)]
-        let Args {
-        outfile,
-        overwrite,
-        silent,
-        extend,
-        clipboard,
-        length,
-        number,
-    } = args;
-    /// Standard set of Alphanumeric and Special characters
-    /// used to generate a password with default settings.
-    const CHARSET: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ\
-                            abcdefghijklmnopqrstuvwxyz\
-                            0123456789*&^%$#@!";
-    /// Extended set of Special characters used to generate
-    /// a password when the -e or --extend option is set.
-    const ESPCHARSET: &[u8] = b"~`()_-+={[}]|\\:;\"'<,>.?/";
+    // Generate the passwords
+    let buffer = collect_passwords(args.length, args.number, args.extend);
 
-    let mut rng = rand::thread_rng();
-    let mut pwcharset: Vec<u8> = Vec::new();
-    let mut first_char: bool;
-    let mut buffer = String::new();
-
-    pwcharset.extend(CHARSET);
-    if extend {
-        pwcharset.extend(ESPCHARSET);
-    }
-
-    for n in 0..number {
-        if pwcharset.len() > CHARSET.len() {
-            first_char = true;
-        } else {
-            first_char = false;
-        }
-        let password: String = (0..length)
-            .map(|_| {
-                let idx = rng.gen_range(0..pwcharset.len());
-                if first_char && idx > CHARSET.len() {
-                    first_char = false;
-                    pwcharset[idx - ESPCHARSET.len()] as char
-                } else {
-                    pwcharset[idx] as char
-                }
-            })
-            .collect();
-        if n > 0 {
-            writeln!(&mut buffer)?;
-        }
-        write!(&mut buffer, "{}", password)?;
-    }
-
-    if !outfile.is_empty() {
-        let mut file = File::create(&outfile)?;
+    // Write passwords to file is requested
+    if !args.outfile.is_empty() {
+        let mut file = File::create(&args.outfile)?;
         file.write_all(buffer.as_bytes())?;
-        if !silent {
-            eprintln!("Passwords written to: {}", outfile);
+        if !args.silent {
+            eprintln!("Passwords written to: {}", args.outfile);
         }
     }
 
-    if clipboard {
+    // Write passwords to clipboard is requested
+    if args.clipboard {
         let mut ctx: Clipboard = Clipboard::new()?;
-        ctx.set_text(buffer.to_string())?;
-        if !silent {
+        ctx.set_text(buffer.clone())?;
+        if !args.silent {
             eprintln!("Passwords written to: clipboard");
         }
     }
 
-    if !silent {
-        write!(&mut io::stdout(), "{}", buffer.to_string())?;
+    // Write passwords to output stream is not silent
+    if !args.silent {
+        write!(&mut io::stdout(), "{}", buffer)?;
     }
 
     Ok(())
