@@ -23,7 +23,7 @@ const ESPCHARSET: &[u8] = b"~`()_-+={[}]|\\:;\"'<,>.?/";
 /// assert_eq!(password.len(), 30);
 ///
 /// // Collect a single password with Alphanumeric
-/// // and *&^%$#@!~`()_-+={[}]|\\:;\"'<,>.?/ characters.
+/// // and *&^%$#@!~`()_-+={[}]|\:;"'<,>.?/ characters.
 /// let password: String = collect_passwords(30, 1, true);
 /// assert!(password.is_ascii());
 /// assert_eq!(password.len(), 30);
