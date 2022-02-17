@@ -70,7 +70,7 @@ pub fn collect_passwords(length: usize, number: usize, extend: bool) -> String {
 /// assert_eq!(password.len(), 30);
 ///
 /// // Create a password with Alphanumeric
-/// // and *&^%$#@!~`()_-+={[}]|\\:;\"'<,>.?/ characters.
+/// // and *&^%$#@!~`()_-+={[}]|\:;"'<,>.?/ characters.
 /// let password: String = create_password(30, true);
 /// assert!(password.is_ascii());
 /// assert_eq!(password.len(), 30);
