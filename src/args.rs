@@ -1,5 +1,6 @@
 use clap::{App, Arg};
 use std::io;
+
 /// The default length of passwords generated.
 const PASSWORD_LEN: &str = "30";
 /// The default number of passwords generated.
@@ -16,11 +17,13 @@ pub struct Args {
     pub number: usize,
 }
 
+/// Errors returned by ArgResult
 #[derive(Debug)]
 pub enum ArgError {
     OutputFound(String),
 }
 
+/// Return results for the function "validate_args" used to validate the command line arguments.
 pub type ArgResult = Result<(), ArgError>;
 
 impl Args {
@@ -126,6 +129,11 @@ impl Args {
     }
 }
 
+/// Evaluates the response to a yes/no prompt.
+/// This function will return true for a "yes'
+/// response and false for a "no" response.
+/// The variable "default" will be the response
+/// returned if the response is an \[enter\].
 fn yes_no(default: &str) -> bool {
     // function will return true if yes and false if no.
     if default.is_empty() {
