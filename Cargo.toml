@@ -1,6 +1,6 @@
 [package]
 name = "passwd_gen"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["John Hight <john@hight.net>"]
 edition = "2021"
 homepage = "https://github.com/hight"
