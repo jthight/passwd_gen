@@ -1,6 +1,6 @@
  # passwd_gen
- A utility to generate random passwords of
- a user selected length and quantity generated.
+ A Cli utility to generate random passwords of 
+ a user defined length and quantity.
  My inspiration for this utility came from the
  "Rust Cookbook" in [1.1. Generate Random Values](https://rust-lang-nursery.github.io/rust-cookbook/algorithms/randomness.html#create-random-passwords-from-a-set-of-user-defined-characters)
 

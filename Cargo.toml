@@ -9,6 +9,7 @@ readme = "README.md"
 keywords = ["generate", "password","utility","commandline","random"]
 categories = ["Command line utilities"]
 license = "MIT OR Apache-2.0"
+description = "A Cli utility to generate random passwords of a user defined length and quantity."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
