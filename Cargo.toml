@@ -3,6 +3,11 @@ name = "passwd_gen"
 version = "0.1.0"
 authors = ["John Hight <john@hight.net>"]
 edition = "2021"
+homepage = "https://github.com/hight"
+repository = "https://github.com/jthight/passwd_gen"
+readme = "README.md"
+keywords = ["generate", "password","utility","commandline","random"]
+categories = ["Command line utilities"]
 license = "MIT OR Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
